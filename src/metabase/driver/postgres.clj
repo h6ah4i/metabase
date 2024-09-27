@@ -241,7 +241,8 @@
                          ;; filter out system tables
                          [(keyword "!~") :n.nspname "^pg_"] [:<> :n.nspname "information_schema"]
                          ;; only get tables of type: TABLE, PARTITIONED TABLE, VIEW, FOREIGN TABLE, MATERIALIZED VIEW
-                         [:raw "c.relkind in ('r', 'p', 'v', 'f', 'm')"]]
+                         [:raw "c.relkind in ('r', 'p', 'v', 'f', 'm')"]
+                         [:= :c.relispartition false]]
              :order-by  [:type :schema :name]}
      (seq schemas)
      (sql.helpers/where [:in :n.nspname schemas])
